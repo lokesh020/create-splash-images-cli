@@ -1,0 +1,27 @@
+{
+  "name": "create-splash-images_rn",
+  "version": "1.0.0",
+  "description": "This is cli tool for generating splash or launch images of various sizes required for iOS and android platform. It automatically inserts splash images in the right place. So you don't need put extra effort. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lokesh020/create-splash-images-cli.git"
+  },
+  "keywords": [
+    "splash-screen",
+    "splashscreen",
+    "launchimage",
+    "launch-image",
+    "react-native",
+    "splash-images"
+  ],
+  "author": "Lokesh Jangid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lokesh020/create-splash-images-cli/issues"
+  },
+  "homepage": "https://github.com/lokesh020/create-splash-images-cli#readme"
+}
