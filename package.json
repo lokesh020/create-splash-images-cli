@@ -1,6 +1,6 @@
 {
   "name": "create-splash-images-cli",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "This is cli tool for generating splash or launch images of various sizes required for iOS and android platform. It automatically inserts splash images in the right place. So you don't need put extra effort. ",
   "main": "src/index.js",
   "bin": {
