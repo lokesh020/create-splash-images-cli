@@ -23,7 +23,9 @@
     "launch-image",
     "react-native",
     "splash-images",
-    "react-native-splash-screen"
+    "react-native-splash-generate",
+    "react-native-splash-images",
+    "react-native-splash-image-generate"
   ],
   "files": [
     "bin/",

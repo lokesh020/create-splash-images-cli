@@ -42,9 +42,9 @@ const log = (text, dim = false) => {
 };
 
 
-export const generateImages = async (workingDirectory, imgPath, iOSProjectPath, androidSrcDirPath) => {
+export const generateImages = async (absProjectDirPath, splashImgPath, iOSProjectDirPath, androidSrcMainDirPath) => {
 
-    const splashImg = await jimp.read(imgPath);
+    const splashImg = await jimp.read(splashImgPath);
 
     const images = []
 
@@ -64,8 +64,8 @@ export const generateImages = async (workingDirectory, imgPath, iOSProjectPath, 
         "@4x": 1920,
     };
 
-    if (androidSrcDirPath) {
-        const appMainPath = path.resolve(androidSrcDirPath)
+    if (androidSrcMainDirPath) {
+        const appMainPath = path.resolve(androidSrcMainDirPath)
         const resPath = path.resolve(appMainPath, "res");
         const layoutPath = path.resolve(resPath, "layout");
 
@@ -75,7 +75,7 @@ export const generateImages = async (workingDirectory, imgPath, iOSProjectPath, 
 
         fs.writeFileSync(launchScreenXmlPath, launchScreenXml, "utf-8");
 
-        log(`${path.relative(workingDirectory, launchScreenXmlPath)}`, true);
+        log(`${path.relative(absProjectDirPath, launchScreenXmlPath)}`, true);
 
         images.push(
             {
@@ -111,8 +111,8 @@ export const generateImages = async (workingDirectory, imgPath, iOSProjectPath, 
 
     }
 
-    if (iOSProjectPath) {
-        const imagesPath = path.join(iOSProjectPath, "Images.xcassets");
+    if (iOSProjectDirPath) {
+        const imagesPath = path.join(iOSProjectDirPath, "Images.xcassets");
 
         if (fs.existsSync(imagesPath)) {
             const imageSetPath = path.resolve(imagesPath, xcassetName + ".imageset");
@@ -159,7 +159,7 @@ export const generateImages = async (workingDirectory, imgPath, iOSProjectPath, 
                 .then(() => {
                     log(
                         `✨  ${path.relative(
-                            workingDirectory,
+                            absProjectDirPath,
                             filePath,
                         )} (${width}x${height})`,
                         true,
