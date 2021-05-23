@@ -1,6 +1,6 @@
-# create-splash-images-cli
+# create-splash-images-cli for react native 
 
-This is cli tool for generating splash or launch images of various sizes required for iOS and android platform with single command. It automatically generates splash images in the right place. So you don't need put extra effort.
+This is cli tool for generating splash or launch images of various sizes required for react native iOS and android platform with single command. It automatically generates splash images in the right place. So you don't need put extra effort.
 
 ## Installation
 
