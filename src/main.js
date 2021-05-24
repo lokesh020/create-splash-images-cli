@@ -4,24 +4,26 @@ import fs from "fs-extra";
 import jimp from "jimp";
 import path from "path";
 
-const logoFileName = "splash_bg";
+import getLaunchStoryBoardRawXml from './launchStoryBoard'
+
+const splashImgFileName = "splash_bg";
 const xcassetName = "LaunchImage";
 
 const ContentsJson = `{
     "images": [
       {
         "idiom": "universal",
-        "filename": "${logoFileName}.png",
+        "filename": "${splashImgFileName}.png",
         "scale": "1x"
       },
       {
         "idiom": "universal",
-        "filename": "${logoFileName}@2x.png",
+        "filename": "${splashImgFileName}@2x.png",
         "scale": "2x"
       },
       {
         "idiom": "universal",
-        "filename": "${logoFileName}@3x.png",
+        "filename": "${splashImgFileName}@3x.png",
         "scale": "3x"
       }
     ],
@@ -34,8 +36,10 @@ const ContentsJson = `{
 const launchScreenXml = `<?xml version="1.0" encoding="utf-8"?>
   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
-      <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/${logoFileName}" android:scaleType="centerCrop" />
+      <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/${splashImgFileName}" android:scaleType="fitXY" />
   </RelativeLayout>`;
+
+
 
 const log = (text, dim = false) => {
     console.log(dim ? chalk.dim(text) : text);
@@ -75,26 +79,26 @@ export const generateImages = async (absProjectDirPath, splashImgPath, iOSProjec
 
         fs.writeFileSync(launchScreenXmlPath, launchScreenXml, "utf-8");
 
-        log(`${path.relative(absProjectDirPath, launchScreenXmlPath)}`, true);
+        log(`✨ ${path.relative(absProjectDirPath, launchScreenXmlPath)}`, true);
 
         images.push(
             {
-                filePath: path.resolve(resPath, "drawable-mdpi", logoFileName + ".png"),
+                filePath: path.resolve(resPath, "drawable-mdpi", splashImgFileName + ".png"),
                 width: width["@1x"],
                 height: height["@1x"],
             },
             {
-                filePath: path.resolve(resPath, "drawable-hdpi", logoFileName + ".png"),
+                filePath: path.resolve(resPath, "drawable-hdpi", splashImgFileName + ".png"),
                 width: width["@1,5x"],
                 height: height["@1,5x"],
             },
             {
-                filePath: path.resolve(resPath, "drawable-xhdpi", logoFileName + ".png"),
+                filePath: path.resolve(resPath, "drawable-xhdpi", splashImgFileName + ".png"),
                 width: width["@2x"],
                 height: height["@2x"],
             },
             {
-                filePath: path.resolve(resPath, "drawable-xxhdpi", logoFileName + ".png"),
+                filePath: path.resolve(resPath, "drawable-xxhdpi", splashImgFileName + ".png"),
                 width: width["@3x"],
                 height: height["@3x"],
             },
@@ -102,7 +106,7 @@ export const generateImages = async (absProjectDirPath, splashImgPath, iOSProjec
                 filePath: path.resolve(
                     resPath,
                     "drawable-xxxhdpi",
-                    logoFileName + ".png",
+                    splashImgFileName + ".png",
                 ),
                 width: width["@4x"],
                 height: height["@4x"],
@@ -112,9 +116,19 @@ export const generateImages = async (absProjectDirPath, splashImgPath, iOSProjec
     }
 
     if (iOSProjectDirPath) {
+
+        const launchStoryBoardPath = path.resolve(iOSProjectDirPath, "LaunchScreen.storyboard");
+
+        const launchStoryBoardRawXml = getLaunchStoryBoardRawXml()
+
+        fs.writeFileSync(launchStoryBoardPath, launchStoryBoardRawXml , "utf-8");
+
+        log(`✨ ${path.relative(absProjectDirPath, launchStoryBoardPath)}`, true);
+
         const imagesPath = path.join(iOSProjectDirPath, "Images.xcassets");
 
         if (fs.existsSync(imagesPath)) {
+
             const imageSetPath = path.resolve(imagesPath, xcassetName + ".imageset");
 
             fs.ensureDirSync(imageSetPath);
@@ -127,17 +141,17 @@ export const generateImages = async (absProjectDirPath, splashImgPath, iOSProjec
 
             images.push(
                 {
-                    filePath: path.resolve(imageSetPath, logoFileName + ".png"),
+                    filePath: path.resolve(imageSetPath, splashImgFileName + ".png"),
                     width: width["@1x"],
                     height: height["@1x"],
                 },
                 {
-                    filePath: path.resolve(imageSetPath, logoFileName + "@2x.png"),
+                    filePath: path.resolve(imageSetPath, splashImgFileName + "@2x.png"),
                     width: width["@2x"],
                     height: height["@2x"],
                 },
                 {
-                    filePath: path.resolve(imageSetPath, logoFileName + "@3x.png"),
+                    filePath: path.resolve(imageSetPath, splashImgFileName + "@3x.png"),
                     width: width["@3x"],
                     height: height["@3x"],
                 },
@@ -154,7 +168,7 @@ export const generateImages = async (absProjectDirPath, splashImgPath, iOSProjec
         images.map(({ filePath, width, height }) =>
             splashImg
                 .clone()
-                .cover(width, height)
+                .scaleToFit(width, height)
                 .writeAsync(filePath)
                 .then(() => {
                     log(
