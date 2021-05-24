@@ -2,9 +2,9 @@
 
 This is cli tool for generating splash or launch images of various sizes required for react native iOS and android platform and also lauchscreen xml file in android with single command. It automatically generates splash images in the right place. So you don't need put extra effort.
 
-## Major changes :- iOS storyboard file setup with splash images generated (2.0.0)
+### Major changes :- iOS storyboard file setup with splash images generated (2.0.0)
 
-Now the cli tool also generates storyboard file for iOS with all constraints & image setup. No need to setup LaunchScreen.storyboard file :smiley:
+Now the cli tool also generates storyboard file for iOS with all constraints & image setup. No need to setup LaunchScreen.storyboard file manually :smiley:
 
 ## Installation
 
